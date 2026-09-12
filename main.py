@@ -296,7 +296,7 @@ class PoetryGuessPlugin(Star):
 
     # ==================== 道具 ====================
 
-    @filter.command("诗词道具")
+    @filter.command("诗词道具", alias={"使用道具", "道具", "使用"})
     async def use_item(self, event: AstrMessageEvent, item: str = "", n: str = ""):
         """使用诗词道具：/诗词道具 道具名 [数量] [额外参数，如定仙游的字或@玩家]"""
         uid = str(event.get_sender_id())
@@ -315,7 +315,7 @@ class PoetryGuessPlugin(Star):
             count = 1
         raw = str(event.get_message_str() or "").strip()
         tail = raw
-        tail = re.sub(r"^[/／]?\s*诗词道具\s*", "", tail, flags=re.IGNORECASE)
+        tail = re.sub(r"^[/／]?\s*(?:诗词道具|使用道具|道具|使用)\s*", "", tail, flags=re.IGNORECASE)
         tail = re.sub(r"^" + re.escape(item) + r"\s*", "", tail).strip()
         mnum = re.match(r"^(\d+)\s*", tail)
         if mnum:
