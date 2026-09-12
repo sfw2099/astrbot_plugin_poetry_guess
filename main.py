@@ -371,6 +371,14 @@ class PoetryGuessPlugin(Star):
         if not clauses:
             yield event.plain_result("用法：/抽道具 一句你尚未积累过的诗句")
             return
+        if not self._base_ready():
+            yield event.plain_result(self._base_ready_msg())
+            return
+        # 校验每个分句均为库中真实诗句
+        for c in clauses:
+            if not links.base_is_in_library(self.context, c):
+                yield event.plain_result(f"「{c}」不在诗词库中，请输入库中真实诗句。")
+                return
         mine = self.pm.get_verses(uid)
         all_used = all(c in mine for c in clauses)
         if all_used:
