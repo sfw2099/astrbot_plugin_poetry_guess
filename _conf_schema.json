@@ -1,0 +1,27 @@
+{
+    "verse_max_attempts": {
+        "title": "猜诗句最大次数",
+        "type": "int",
+        "default": 10
+    },
+    "verse_min_len": {
+        "title": "猜诗句最短字数（不含标点）",
+        "type": "int",
+        "default": 7
+    },
+    "verse_max_len": {
+        "title": "猜诗句最长字数（不含标点）",
+        "type": "int",
+        "default": 18
+    },
+    "hazard_rate": {
+        "title": "劫难触发概率(%)",
+        "type": "int",
+        "default": 20
+    },
+    "hazard_max": {
+        "title": "劫难最大重数",
+        "type": "int",
+        "default": 5
+    }
+}

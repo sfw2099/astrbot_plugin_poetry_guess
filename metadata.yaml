@@ -1,0 +1,6 @@
+name: astrbot_plugin_poetry_guess
+display_name: 猜诗句
+desc: 猜诗句(Wordle式拼音/部首提示) + 劫难系统 + 道具系统 + 诗词对垒 - 依赖诗词底座与秋烨枢纽
+version: v1.0.0
+author: ALin
+repo: https://github.com/sfw2099/astrbot_plugin_poetry_guess
