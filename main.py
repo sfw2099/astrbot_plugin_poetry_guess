@@ -607,7 +607,7 @@ class PoetryGuessPlugin(Star):
 
     # ==================== 猜测处理（含劫难/结算） ====================
 
-    def _handle_shell_private(self, event, msg_raw, is_private, handled):
+    async def _handle_shell_private(self, event, msg_raw, is_private, handled):
         """金蝉脱壳：玩家在私聊发送新题（cc 前缀），校验后换题并通知对垒群。"""
         if not is_private:
             return
@@ -1114,7 +1114,7 @@ class PoetryGuessPlugin(Star):
                 return
         yield event.plain_result("当前没有进行中的对垒。")
 
-    def _handle_duel_message(self, event, msg_raw, is_private, handled):
+    async def _handle_duel_message(self, event, msg_raw, is_private, handled):
         """对垒消息处理：接受确认 / 出题 / 猜测。"""
         session_id = str(event.get_group_id() or event.get_session_id())
         uid = str(event.get_sender_id())
