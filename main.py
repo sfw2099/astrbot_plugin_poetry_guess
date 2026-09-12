@@ -23,6 +23,7 @@ from .game.guess_verse import (
     render_duel,
     extract_hanzi, extract_punct,
     INITIALS_LIST, FINALS_LIST,
+    _init_plugin_dir,
 )
 from .game.items import ITEMS, roll_win_item, roll_loser_item
 from .manifest import HAZARD_IDS, closer_level_name
@@ -49,6 +50,10 @@ class PoetryGuessPlugin(Star):
         self._shell_wait = {}           # 金蝉脱壳私聊换题
         # 启动时向秋烨注册成就/道具清单
         ok = links.hub_register_manifest(context)
+        try:
+            _init_plugin_dir(os.path.dirname(os.path.abspath(__file__)))
+        except Exception:
+            pass
         logger.info(f"[poetry_guess] 猜诗句插件已加载。数据目录: {self.data_dir}，秋烨注册{'成功' if ok else '失败(秋烨未就绪)'}")
 
     # ==================== 基础设施 ====================
@@ -215,7 +220,7 @@ class PoetryGuessPlugin(Star):
             import random as _r2
             hint_mode = "pinyin" if _r2.random() < 0.70 else "radical"
 
-        engine = GuessVerseEngine(None, None, self.verse_min_len, self.verse_max_len,
+        engine = GuessVerseEngine(None, None, 4, 7,
                                   classic_poems=links.base_classic_poems(self.context), hint_mode=hint_mode)
         engine.db_source = _BaseDBSource(self.context)
         if fmt[0] == "single":
@@ -373,7 +378,8 @@ class PoetryGuessPlugin(Star):
             return
         self.pm.record_verse(uid, verse, uname)
         for a in self.pm.check_verse_achievements(uid, uname):
-            yield event.plain_result(f"🏆 {uname} 达成成就「{self._achieve_msg(uid, a).split('「')[1].split('」')[0]}」！")
+            from .manifest import ACHIEVEMENTS
+            yield event.plain_result(f"🏆 {uname} 达成成就「{ACHIEVEMENTS.get(a, (a, ''))[0]}」！")
         _hit, _tip, _ach = self._roll_draw(uid, uname)
         yield event.plain_result(_tip)
         if _ach:
